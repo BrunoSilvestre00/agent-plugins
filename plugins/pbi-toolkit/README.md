@@ -31,7 +31,7 @@ do zero — ver "Adicionar um PBI a um épico já decomposto" mais abaixo.
 
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev — mesmo passo do dev-toolkit/dev-patterns)
-claude plugin marketplace add BrunoSilvestre00/ai-plugins-public
+claude plugin marketplace add BrunoSilvestre00/agent-plugins
 
 # 2. Instalar o plugin
 claude plugin install pbi-toolkit@ai-plugins
@@ -43,7 +43,7 @@ dos repositórios de projeto:
 ```json
 {
   "extraKnownMarketplaces": {
-    "ai-plugins": { "source": { "source": "github", "repo": "BrunoSilvestre00/ai-plugins-public" } }
+    "ai-plugins": { "source": { "source": "github", "repo": "BrunoSilvestre00/agent-plugins" } }
   },
   "enabledPlugins": { "pbi-toolkit@ai-plugins": true }
 }

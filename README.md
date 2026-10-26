@@ -1,8 +1,8 @@
-# ai-plugins
+# agent-plugins
 
-Marketplace de plugins do Claude Code para um ciclo de desenvolvimento
+Marketplace de plugins para agentes como Claude Code e Codex, para um ciclo de desenvolvimento
 com agentes — da quebra do épico em PBIs até o Pull Request validado
-(`BrunoSilvestre00/ai-plugins-public`).
+([`BrunoSilvestre00/agent-plugins`](https://github.com/BrunoSilvestre00/agent-plugins)).
 
 > **Versão pública.** Estes plugins nasceram do fluxo real de um time de
 > engenharia; esta é a versão publicável, com nomes de projetos internos
@@ -21,7 +21,7 @@ propósito deles, não uma dependência de infraestrutura extra).
 |---|---|
 | [`pbi-toolkit`](plugins/pbi-toolkit/README.md) | PO quebra um épico em PBIs: grava um `.md` por PBI no repo (insumo do Spec Kit) e cria as issues no Jira via MCP da Atlassian |
 | [`dev-toolkit`](plugins/dev-toolkit/README.md) | Ciclo de dev automatizado: refinamento técnico do backlog (`refine`, opcional) → PBI pronto no Jira → avaliação de arquitetura contra um checklist completo de infra (`architect`) → decomposição em tasks → implementação isolada (`implementer`/`verifier`) → revisão final de arquitetura (`architect`) → UM PR por PBI → Testes. Também tem comandos isolados sob demanda: diagrama de arquitetura (`diagram`) e auditoria retroativa de arquitetura pra PBI já em teste/concluído (`review`) |
-| [`dev-patterns`](plugins/dev-patterns/README.md) | Skills de convenção de código e infra do time — gerais, frontend (React/TS/Redux), backend (Python/Clean Architecture) e DevOps/IaC (Terraform) — mais comandos de scaffold inicial por stack — instala e as convenções ficam disponíveis para o Claude Code usar sozinho |
+| [`dev-patterns`](plugins/dev-patterns/README.md) | Skills de convenção de código e infra do time — gerais, frontend (React/TS/Redux), backend (Python/Clean Architecture) e DevOps/IaC (Terraform) — mais comandos de scaffold inicial por stack — instala e as convenções ficam disponíveis para o agente usar sozinho |
 
 Instale só o que precisar: o PO de um projeto pode querer só o
 `pbi-toolkit`; um repositório frontend puro pode querer só o
@@ -32,9 +32,11 @@ instalados juntos (ver README de cada um).
 
 ## Instalação
 
+### Claude Code
+
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev)
-claude plugin marketplace add BrunoSilvestre00/ai-plugins-public
+claude plugin marketplace add BrunoSilvestre00/agent-plugins
 
 # 2. Instalar o(s) plugin(s) que precisar
 claude plugin install pbi-toolkit@ai-plugins
@@ -44,6 +46,41 @@ claude plugin install dev-patterns@ai-plugins
 
 Atualizações: basta o time dar push neste repo e cada dev rodar
 `/plugin marketplace update ai-plugins` (ou reinstalar o plugin).
+
+### Codex
+
+Com o Codex CLI instalado e autenticado, execute no terminal:
+
+```bash
+# 1. Adicionar o marketplace (uma vez por dev)
+codex plugin marketplace add BrunoSilvestre00/agent-plugins
+
+# 2. Instalar o(s) plugin(s) que precisar
+codex plugin add pbi-toolkit@ai-plugins
+codex plugin add dev-toolkit@ai-plugins
+codex plugin add dev-patterns@ai-plugins
+```
+
+Inicie uma nova conversa após a instalação. Para consultar os plugins desse
+marketplace, use `codex plugin list --marketplace ai-plugins`. No Codex
+interativo, o navegador de plugins também está disponível em `/plugins`.
+
+Para atualizar o catálogo após mudanças neste repo:
+
+```bash
+codex plugin marketplace upgrade ai-plugins
+```
+
+O Codex aceita o catálogo em `.claude-plugin/marketplace.json` e os
+manifestos compatíveis com Claude; o nome da pasta não restringe o
+marketplace ao Claude Code. Consulte a
+[documentação oficial de plugins](https://developers.openai.com/plugins/build/plugins).
+
+Os READMEs de cada plugin detalham a configuração do projeto e as
+integrações necessárias. Eles ainda usam exemplos de comandos do Claude
+Code e o arquivo `CLAUDE.md`; no Codex, indique ao agente que leia esse
+arquivo para usar a seção `## Dev Flow Config`. Para os fluxos com Jira,
+conecte e autentique o MCP da Atlassian no ambiente do Codex.
 
 ## Estrutura
 

@@ -65,7 +65,7 @@ Três agentes especializados, invocados pelos comandos acima (não só pelo
 
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev)
-claude plugin marketplace add BrunoSilvestre00/ai-plugins-public
+claude plugin marketplace add BrunoSilvestre00/agent-plugins
 
 # 2. Instalar o plugin
 claude plugin install dev-toolkit@ai-plugins

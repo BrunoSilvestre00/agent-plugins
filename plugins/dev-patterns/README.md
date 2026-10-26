@@ -31,7 +31,7 @@ externo — instala e usa. Cobre hoje:
 
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev — mesmo passo do dev-toolkit)
-claude plugin marketplace add BrunoSilvestre00/ai-plugins-public
+claude plugin marketplace add BrunoSilvestre00/agent-plugins
 
 # 2. Instalar
 claude plugin install dev-patterns@ai-plugins
