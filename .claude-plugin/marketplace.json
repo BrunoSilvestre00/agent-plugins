@@ -1,0 +1,38 @@
+{
+  "name": "ai-plugins",
+  "owner": {
+    "name": "Bruno Silvestre"
+  },
+  "plugins": [
+    {
+      "name": "dev-toolkit",
+      "source": "./plugins/dev-toolkit",
+      "description": "Fluxo automatizado de desenvolvimento: /setup provisiona o CLAUDE.md (detecta test/lint/branch, monorepo/stacks, consulta status reais do Jira), /refine faz o refinamento técnico do backlog pronto antes do pickup (clareza do PBI, histórico do time, architect com checklist completo de infra e decisão de qual codebase hospeda capacidade nova, Spec Kit, /diagram se aplicável), /diagram gera/atualiza diagramas de arquitetura (.drawio, icones oficiais AWS4) priorizando a IaC real do repo, /review roda a revisão final de arquitetura retroativamente em PBI/épico já em teste ou concluído (reflete no board, gera lição pro compound), depois puxa PBIs prontos do Jira, isola o PBI numa worktree dedicada sozinho (Fase 0, sem precisar rodar /worktree antes), pergunta a visão de implementação do dev antes de propor qualquer abordagem (ou segue sozinho, se o dev preferir autonomia), avalia impacto de arquitetura contra infra (compute/gatilho/banco/cache/fila/evento/storage/observability/rede/segredo)/integrações/padrões/qual codebase deve hospedar capacidade nova/dependências sem deixar nada em aberto (architect, checando contra as skills do dev-patterns quando instalado), decompõe em tasks, implementa cada uma isolada com prova de RED+GREEN (implementer/verifier — verifier reprova violação das skills de review do dev-patterns com o mesmo peso de qualquer outro problema), roda o architect de novo em revisão final de design contra o diff real — incluindo um check de omissão que relê o checklist contra o próprio PBI, não só contra o que foi decidido antes, pra pegar categoria (ex.: gatilho de execução, instrumentação ausente) que nunca teve resposta —, abre UM PR por repositório (feat/{ID}), ou DOIS (stage + main draft, com tag confirmada pelo dev) se o repositório configurar stage_branch, espera o CI real ficar verde, promove o PR de main quando o de stage mergear, e só então move o card para Testes. Protege contra corrida entre PBIs irmãos do mesmo épico ao postar decisão de arquitetura, e sinaliza no /triage quais PBIs paralelos estão esperando resposta.",
+      "version": "1.20.0",
+      "author": {
+        "name": "Bruno Silvestre"
+      },
+      "keywords": ["jira", "workflow", "speckit", "pr", "automation", "aws", "diagrams", "architecture-review"]
+    },
+    {
+      "name": "pbi-toolkit",
+      "source": "./plugins/pbi-toolkit",
+      "description": "Quebra epicos em PBIs padronizados: grava um .md por PBI no repositorio (insumo do /speckit.specify) e cria as issues no Jira via MCP da Atlassian. Detecta epico ja decomposto e entra em modo incremental (adiciona um PBI sem repetir a entrevista). Checklist de refinamento cobre dados como dimensao propria (qualidade, retencao, medicao), nao so efeito colateral de outro PBI. Regras de negocio de um PBI que captura entidade exigem contrato de campos completo (obrigatorio/opcional), nao so exemplos, e isso vira item da Definition of Ready.",
+      "version": "1.9.0",
+      "author": {
+        "name": "Bruno Silvestre"
+      },
+      "keywords": ["jira", "product", "pbi", "speckit", "refinamento"]
+    },
+    {
+      "name": "dev-patterns",
+      "source": "./plugins/dev-patterns",
+      "description": "Skills e comandos de scaffold que padronizam código e infra do time: gerais (commit, code review), frontend (React/TS/Redux), backend (Python/Clean Architecture, validado contra design/performance/segurança), DevOps/IaC (Terraform+AWS) e observability (Datadog: instrumentacao Python + Lambda/Terraform, sampling e auto-instrumentacao cost-aware por padrao), mais comandos de scaffold inicial por stack. Autossuficiente: instale e as convenções ficam disponíveis, sem depender de nenhum servidor externo.",
+      "version": "0.9.0",
+      "author": {
+        "name": "Bruno Silvestre"
+      },
+      "keywords": ["skills", "conventions", "frontend", "backend", "devops", "terraform", "react", "redux", "python", "clean-architecture", "tdd", "code-review", "observability", "datadog"]
+    }
+  ]
+}
