@@ -67,3 +67,4 @@ minor. Correções de texto = patch. Mudanças que exigem reconfigurar os
 repositórios consumidores = major, com aviso no PR. Detalhes específicos de
 cada plugin (e, no caso do `dev-patterns`, de cada skill) ficam no README
 de cada um.
+# agent-plugins
