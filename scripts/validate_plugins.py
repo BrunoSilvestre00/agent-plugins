@@ -39,7 +39,9 @@ def frontmatter(path):
     keys = set(re.findall(r'^([a-z-]+):', match[1], re.M))
     assert {'name', 'description'} <= keys, f'Missing skill identity: {path}'
     assert keys <= {'name', 'description', 'metadata', 'license', 'allowed-tools'}, f'Unsupported fields: {path}: {keys}'
-    name = re.search(r'^name: (.+)$', match[1], re.M)[1]
+    name_match = re.search(r'^name: (.+)$', match[1], re.M)
+    assert name_match is not None, f'Missing skill name value: {path}'
+    name = name_match[1]
     assert re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', name) and len(name) < 64, f'Invalid skill name: {name}'
     assert path.parent.name == name, f'Folder/name mismatch: {path}'
     return name
@@ -160,17 +162,20 @@ def discover_skills(executable, env, consumer, expected_skills):
                                    cwd=consumer, env=env, stdin=subprocess.PIPE,
                                    stdout=subprocess.PIPE, stderr=errors,
                                    text=True, encoding='utf-8')
+        stdin = process.stdin
+        stdout = process.stdout
+        assert stdin is not None and stdout is not None, 'Codex app-server pipes were not created'
 
         def receive():
-            for line in process.stdout:
+            for line in stdout:
                 messages.put(json.loads(line))
 
         reader = threading.Thread(target=receive, daemon=True)
         reader.start()
 
         def send(message):
-            process.stdin.write(json.dumps(message) + '\n')
-            process.stdin.flush()
+            stdin.write(json.dumps(message) + '\n')
+            stdin.flush()
 
         def response(request_id):
             deadline = time.monotonic() + 30
@@ -207,8 +212,8 @@ def discover_skills(executable, env, consumer, expected_skills):
                 process.kill()
                 process.wait(timeout=10)
             reader.join(timeout=2)
-            process.stdin.close()
-            process.stdout.close()
+            stdin.close()
+            stdout.close()
 
 
 def claude_smoke(plugins):
