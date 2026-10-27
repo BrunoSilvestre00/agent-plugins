@@ -1,7 +1,8 @@
 ---
 name: terraform-datadog-lambda-pattern
 description: Instrumentar uma AWS Lambda com Datadog via Terraform — extension + tracer layer, handler wrapado, chave via Secrets Manager, sampling por padrão, exclusão de log boilerplate.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Instrumentar uma Lambda com Datadog (Terraform)

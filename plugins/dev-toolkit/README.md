@@ -1,7 +1,14 @@
 # dev-toolkit
 
-Plugin do Claude Code que automatiza o ciclo de **desenvolvimento** do time
+Plugin para Claude Code e Codex que automatiza o ciclo de **desenvolvimento** do time
 a partir de um PBI já pronto no Jira:
+
+**Compatibilidade:** as regras estão em skills compartilhadas. Nos exemplos
+abaixo, `/dev-toolkit:ação` é a entrada do Claude Code; no Codex use
+`$dev-toolkit:dev-toolkit-ação` (por exemplo, `$dev-toolkit:dev-toolkit-work-task PROJ-123`).
+Quando o texto mencionar `CLAUDE.md`, no Codex o arquivo novo é `AGENTS.md`;
+uma seção de configuração já existente em qualquer um deles é reutilizada.
+Veja a [tabela completa e as regras de configuração](../../README.md#uso-nos-dois-agentes).
 
 **PBI pronto (Jira) → Visão de implementação do dev → Avaliação de
 arquitetura → Decomposição em tasks → Implementação isolada → Revisão
@@ -34,19 +41,19 @@ sempre o mesmo, o padrão de qualidade não muda com o tamanho.
 
 ## Comandos
 
-| Comando | O que faz |
-|---|---|
-| `/dev-toolkit:setup [projeto]` | 1x por repositório: provisiona o `CLAUDE.md` (Dev Flow Config), detectando test/lint/branch e consultando os status reais do Jira |
-| `/dev-toolkit:tasks [projeto] [filtro]` | Lista os PBIs prontos para dev nos boards do repo (somente leitura) |
-| `/dev-toolkit:refine [ID]` | Refinamento técnico do backlog em `status_ready`, antes do pickup: clareza do PBI, histórico do time (`docs/knowledge/`), avaliação de arquitetura (`architect`), diagrama (`/dev-toolkit:diagram`, se aplicável), e aponta pro Spec Kit se o repo usar. Sem argumento, roda sobre todo o backlog pronto |
-| `/dev-toolkit:diagram [PBI/épico]` | Gera ou atualiza o diagrama de arquitetura (`.drawio`, ícones oficiais AWS4) via skill `aws-architecture-diagram` — prioriza analisar a IaC real do repositório, cai para descrever a partir do ADR quando ainda não há infra criada. Comando isolado, chamável direto ou a partir do `refine`/`work-task` |
-| `/dev-toolkit:worktree <ID>` | **Opcional** — o `work-task` já isola cada PBI numa worktree sozinho (Fase 0); use este comando só se quiser preparar o ambiente com antecedência, sem começar o ciclo agora |
-| `/dev-toolkit:work-task <ID>` | Executa o ciclo completo: lê o PBI, pergunta a visão de implementação do dev (ou segue sozinho, se ele preferir), assume o card, decompõe o PBI em tasks, implementa/verifica cada task isolada, roda a verificação agregada, faz a revisão final de arquitetura, abre **um PR por repositório tocado** (`feat/{ID}` — dois PRs, stage + main draft com tag, se `stage_branch` estiver configurado), espera o CI real ficar verde nos dois, promove o de main quando o de stage mergear, e só então move para Testes |
-| `/dev-toolkit:triage [projeto]` | Somente leitura: lista PBIs/PRs que precisam de atenção humana (CI vermelho, ADR pendente, PBI parado). Pensado pra rodar via `/loop`, não faz parte do ciclo normal |
-| `/dev-toolkit:review <PBI/épico>` | Revisão retroativa de arquitetura — mesma lógica da revisão final (Fase 9), mas roda em PBI/épico já em `status_testing` ou já concluído, fora de qualquer sessão ativa de `work-task`. Reconstrói o que foi implementado via branch ou histórico de commits, e oferece refletir o achado no board e gerar lição pro compound |
-| `/dev-toolkit:compound [PBI]` | Extrai 1-3 lições aprendidas dos ciclos recentes (bloqueio recorrente, retrabalho) e grava em `docs/knowledge/` — mesma pasta do `pbi-toolkit` |
+| Claude Code | Codex | O que faz |
+|---|---|---|
+| `/dev-toolkit:setup [projeto]` | `$dev-toolkit:dev-toolkit-setup [projeto]` | 1x por repositório: provisiona o `CLAUDE.md` (Dev Flow Config), detectando test/lint/branch e consultando os status reais do Jira |
+| `/dev-toolkit:tasks [projeto] [filtro]` | `$dev-toolkit:dev-toolkit-tasks [projeto] [filtro]` | Lista os PBIs prontos para dev nos boards do repo (somente leitura) |
+| `/dev-toolkit:refine [ID]` | `$dev-toolkit:dev-toolkit-refine [ID]` | Refinamento técnico do backlog em `status_ready`, antes do pickup: clareza do PBI, histórico do time (`docs/knowledge/`), avaliação de arquitetura (`architect`), diagrama (`/dev-toolkit:diagram`, se aplicável), e aponta pro Spec Kit se o repo usar. Sem argumento, roda sobre todo o backlog pronto |
+| `/dev-toolkit:diagram [PBI/épico]` | `$dev-toolkit:dev-toolkit-diagram [PBI/épico]` | Gera ou atualiza o diagrama de arquitetura (`.drawio`, ícones oficiais AWS4) via skill `aws-architecture-diagram` — prioriza analisar a IaC real do repositório, cai para descrever a partir do ADR quando ainda não há infra criada. Comando isolado, chamável direto ou a partir do `refine`/`work-task` |
+| `/dev-toolkit:worktree <ID>` | `$dev-toolkit:dev-toolkit-worktree <ID>` | **Opcional** — o `work-task` já isola cada PBI numa worktree sozinho (Fase 0); use este comando só se quiser preparar o ambiente com antecedência, sem começar o ciclo agora |
+| `/dev-toolkit:work-task <ID>` | `$dev-toolkit:dev-toolkit-work-task <ID>` | Executa o ciclo completo: lê o PBI, pergunta a visão de implementação do dev (ou segue sozinho, se ele preferir), assume o card, decompõe o PBI em tasks, implementa/verifica cada task isolada, roda a verificação agregada, faz a revisão final de arquitetura, abre **um PR por repositório tocado** (`feat/{ID}` — dois PRs, stage + main draft com tag, se `stage_branch` estiver configurado), espera o CI real ficar verde nos dois, promove o de main quando o de stage mergear, e só então move para Testes |
+| `/dev-toolkit:triage [projeto]` | `$dev-toolkit:dev-toolkit-triage [projeto]` | Somente leitura: lista PBIs/PRs que precisam de atenção humana (CI vermelho, ADR pendente, PBI parado). Pensado pra rodar via `/loop`, não faz parte do ciclo normal |
+| `/dev-toolkit:review <PBI/épico>` | `$dev-toolkit:dev-toolkit-review <PBI/épico>` | Revisão retroativa de arquitetura — mesma lógica da revisão final (Fase 9), mas roda em PBI/épico já em `status_testing` ou já concluído, fora de qualquer sessão ativa de `work-task`. Reconstrói o que foi implementado via branch ou histórico de commits, e oferece refletir o achado no board e gerar lição pro compound |
+| `/dev-toolkit:compound [PBI]` | `$dev-toolkit:dev-toolkit-compound [PBI]` | Extrai 1-3 lições aprendidas dos ciclos recentes (bloqueio recorrente, retrabalho) e grava em `docs/knowledge/` — mesma pasta do `pbi-toolkit` |
 
-Três agentes especializados, invocados pelos comandos acima (não só pelo
+Três agentes especializados, em contextos separados no Claude Code ou Codex, invocados pelos comandos acima (não só pelo
 `work-task`):
 
 - **`architect`** — age em dois momentos do ciclo, invocado pelo `work-task` (Fase 3/Fase 9), pelo `refine` (pré-decomposição em batch) e pelo `review` (revisão final retroativa). Antes de qualquer task existir (escopo pré-decomposição), avalia infraestrutura como um **checklist**, não uma pergunta única — onde/como executa (serverless vs. container, com o trade-off de custo/cold start/duração), gatilho (sob demanda, agendado, evento), banco, cache, fila, evento/barramento, armazenamento de objeto/log, observability (com `dev-patterns` instalado, checa contra `python-observability-datadog-pattern`/`terraform-datadog-lambda-pattern` quando o repositório já usa Datadog), rede, segredo/criptografia — além de integrações externas (incluindo qual codebase já existente deveria hospedar uma capacidade nova, quando mais de um é candidato), padrões do projeto e composição com os PBIs irmãos do épico. Lista toda dependência identificada num checklist que não pode ficar com item "em aberto" — mas nem toda dependência de infra é bloqueio: criar um recurso seguindo um padrão já existente (`terraform-project-pattern`/`terraform-security-pattern`) vira task normal na decomposição, é trabalho do próprio ciclo; só bloqueia o que exige decisão de negócio, credencial nova, ou aprovação de outro time. Depois de tudo implementado (escopo revisão final), confronta o diff real (ou o histórico de commits, se rodado retroativamente pelo `review`) com a decisão tomada e com os padrões do repositório — não só se bateu o critério de aceite, mas se é a melhor estrutura disponível, e também relê o checklist de infra/codebase contra o próprio PBI (não só contra o que foi decidido antes) pra pegar categoria que nunca teve resposta, tipo gatilho de execução nunca decidido. Se qualquer dos dois momentos revelar escopo grande demais pra ser task ou ajuste de arquitetura pontual, sinaliza que aquilo pode precisar virar um PBI novo — quem decide e roda `/pbi-toolkit:quebrar-epico` (modo incremental, se o time também usar o `pbi-toolkit`) é o humano. Em nenhum dos dois momentos decide sozinho: propõe (rascunho de ADR, ou o desvio encontrado) e para o ciclo até um humano confirmar ou ajustar.
@@ -55,13 +62,15 @@ Três agentes especializados, invocados pelos comandos acima (não só pelo
 
 ## Pré-requisitos (por dev, uma vez)
 
-1. **Claude Code** instalado (`npm install -g @anthropic-ai/claude-code`).
+1. **Claude Code ou Codex** instalado e autenticado; o ciclo com revisão independente exige subagentes disponíveis na sessão.
 2. **GitHub CLI** autenticado: `gh auth login`.
 3. **Jira**: na primeira utilização, o MCP da Atlassian (embutido no plugin)
-   vai pedir autenticação OAuth no navegador. Use `/mcp` dentro do Claude
-   Code para verificar/refazer a autenticação.
+   vai pedir autenticação OAuth no navegador. No Claude Code use `/mcp`; no Codex use o
+   gerenciador de conexões/MCP para verificar a autenticação.
 
 ## Instalação
+
+### Claude Code
 
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev)
@@ -70,6 +79,19 @@ claude plugin marketplace add BrunoSilvestre00/agent-plugins
 # 2. Instalar o plugin
 claude plugin install dev-toolkit@ai-plugins
 ```
+
+### Codex
+
+No terminal, com uma versão que ofereça `codex plugin add`:
+
+```bash
+codex plugin marketplace add BrunoSilvestre00/agent-plugins
+codex plugin add dev-toolkit@ai-plugins
+```
+
+Abra uma nova conversa após instalar. Para atualizar o catálogo, use
+`codex plugin marketplace upgrade ai-plugins` e atualize/reinstale o plugin.
+Os requisitos e o teste de instalação estão no [README principal](../../README.md).
 
 Atualizações: basta o time dar push neste repo e cada dev rodar
 `/plugin marketplace update ai-plugins` (ou reinstalar o plugin).
@@ -84,7 +106,7 @@ repo já rodou `/pbi-toolkit:setup` antes, ele funde na mesma seção em
 vez de duplicar.
 
 Alternativa manual: copie
-[`examples/CLAUDE.md.example`](examples/CLAUDE.md.example) e ajuste:
+[`CLAUDE.md.example`](../../examples/CLAUDE.md.example) ou [`AGENTS.md.example`](../../examples/AGENTS.md.example) e ajuste:
 
 ```markdown
 ## Dev Flow Config
@@ -418,29 +440,20 @@ O comando `work-task` opera com gates explícitos e regras invioláveis:
 
 ## Estrutura
 
-```
-ai-plugins/
-├── .claude-plugin/
-│   └── marketplace.json          # catálogo do marketplace do time
-├── plugins/dev-toolkit/
-│   ├── .claude-plugin/plugin.json
-│   ├── .mcp.json                 # MCP da Atlassian (OAuth no 1º uso)
-│   ├── agents/
-│   │   ├── architect.md          # avalia impacto (pré-decomposição) e revisão final de design, nunca decide sozinho
-│   │   ├── implementer.md        # implementa 1 task, TDD, worktree isolada
-│   │   └── verifier.md           # revisor adversarial (por task e do PBI)
-│   └── commands/
-│       ├── setup.md              # provisiona o CLAUDE.md (Dev Flow Config)
-│       ├── tasks.md
-│       ├── refine.md             # refinamento técnico do backlog, antes do pickup
-│       ├── diagram.md            # gera/atualiza diagrama de arquitetura (.drawio, AWS4)
-│       ├── worktree.md           # opcional — work-task já isola sozinho (Fase 0)
-│       ├── work-task.md
-│       ├── triage.md             # inbox humano (CI/ADR/PBI parado), roda via /loop
-│       ├── review.md             # revisão retroativa de arquitetura (PBI/épico já em teste/concluído)
-│       └── compound.md           # lições aprendidas em docs/knowledge/
-└── examples/
-    └── CLAUDE.md.example         # config por projeto
+```text
+plugins/dev-toolkit/
+├── .claude-plugin/plugin.json    # Claude Code
+├── .codex-plugin/plugin.json     # Codex
+├── .mcp.json                     # MCP oficial da Atlassian
+├── commands/                     # atalhos do Claude Code para as skills
+├── agents/                       # adaptadores nativos do Claude Code
+├── references/
+│   ├── runtime.md                # configuração, entrada e delegação por host
+│   ├── project-config.md         # exemplo distribuído com o plugin
+│   └── roles/                    # architect, implementer e verifier compartilhados
+└── skills/dev-toolkit-*/
+    ├── SKILL.md
+    └── references/workflow.md    # fases e gates compartilhados
 ```
 
 Durante um `work-task`, o comando cria `.dev-flow/{PBI-ID}/tasks.md` na

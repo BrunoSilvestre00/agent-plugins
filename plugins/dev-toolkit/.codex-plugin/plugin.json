@@ -1,0 +1,14 @@
+{
+  "name": "dev-toolkit",
+  "version": "1.21.0",
+  "description": "Fluxo automatizado de desenvolvimento: /setup provisiona o AGENTS.md/CLAUDE.md (detecta test/lint/branch, monorepo/stacks, consulta status reais do Jira), /refine faz o refinamento técnico do backlog pronto antes do pickup (clareza do PBI, histórico do time, architect com checklist completo de infra e decisão de qual codebase hospeda capacidade nova, Spec Kit, /diagram se aplicável), /diagram gera/atualiza diagramas de arquitetura (.drawio, icones oficiais AWS4) priorizando a IaC real do repo, /review roda a revisão final de arquitetura retroativamente em PBI/épico já em teste ou concluído (reflete no board, gera lição pro compound), depois puxa PBIs prontos do Jira, isola o PBI numa worktree dedicada sozinho (Fase 0, sem precisar rodar /worktree antes), pergunta a visão de implementação do dev antes de propor qualquer abordagem (ou segue sozinho, se o dev preferir autonomia), avalia impacto de arquitetura contra infra (compute/gatilho/banco/cache/fila/evento/storage/observability/rede/segredo)/integrações/padrões/qual codebase deve hospedar capacidade nova/dependências sem deixar nada em aberto (architect, checando contra as skills do dev-patterns quando instalado), decompõe em tasks, implementa cada uma isolada com prova de RED+GREEN (implementer/verifier — verifier reprova violação das skills de review do dev-patterns com o mesmo peso de qualquer outro problema), roda o architect de novo em revisão final de design contra o diff real — incluindo um check de omissão que relê o checklist contra o próprio PBI, não só contra o que foi decidido antes, pra pegar categoria (ex.: gatilho de execução, instrumentação ausente) que nunca teve resposta —, abre UM PR por repositório (feat/{ID}), ou DOIS (stage + main draft, com tag confirmada pelo dev) se o repositório configurar stage_branch, espera o CI real ficar verde, promove o PR de main quando o de stage mergear, e só então move o card para Testes. Protege contra corrida entre PBIs irmãos do mesmo épico ao postar decisão de arquitetura, e sinaliza no /triage quais PBIs paralelos estão esperando resposta.",
+  "author": {
+    "name": "Bruno Silvestre"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dev Toolkit",
+    "shortDescription": "Ciclo de desenvolvimento com Jira e revisão independente."
+  },
+  "mcpServers": "./.mcp.json"
+}

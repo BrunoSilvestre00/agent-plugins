@@ -1,7 +1,8 @@
 ---
 name: terraform-security-pattern
 description: Identidades OIDC por ambiente/propósito, mínimo privilégio por função/serviço, barreiras de segurança executáveis (lifecycle precondition) e manuseio correto de segredo no Terraform.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Padrão de segurança em Terraform (AWS)

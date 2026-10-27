@@ -1,15 +1,22 @@
 # pbi-toolkit
 
-Plugin de Claude Code do time para refinamento padronizado: o PO roda
+Plugin para Claude Code e Codex do time para refinamento padronizado: o PO roda
 **dentro do repositório do projeto**, e o plugin transforma um épico em
 PBIs — gravando um artefato `.md` por PBI no repo (insumo direto do Spec
 Kit) e criando as issues no Jira via MCP da Atlassian. Sem copy-paste em
 nenhuma etapa.
 
+**Compatibilidade:** as regras estão em skills compartilhadas. Nos exemplos
+abaixo, `/pbi-toolkit:ação` é a entrada do Claude Code; no Codex use
+`$pbi-toolkit:pbi-toolkit-ação` (por exemplo, `$pbi-toolkit:pbi-toolkit-quebrar-epico PROJ-123`).
+Quando o texto mencionar `CLAUDE.md`, no Codex o arquivo novo é `AGENTS.md`;
+uma seção de configuração já existente em qualquer um deles é reutilizada.
+Veja a [tabela completa e as regras de configuração](../../README.md#uso-nos-dois-agentes).
+
 ## Fluxo do time
 
 ```
-PO (Claude Code no repo do projeto)            Dev (Claude Code no mesmo repo)
+PO (agente no repo do projeto)            Dev (agente no mesmo repo)
 ──────────────────────────────────             ────────────────────────────────
 /pbi-toolkit:quebrar-epico PROJ-123
   ├─ entrevista de refinamento (1 pergunta por vez)
@@ -29,6 +36,8 @@ do zero — ver "Adicionar um PBI a um épico já decomposto" mais abaixo.
 
 ## Instalação
 
+### Claude Code
+
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev — mesmo passo do dev-toolkit/dev-patterns)
 claude plugin marketplace add BrunoSilvestre00/agent-plugins
@@ -37,7 +46,20 @@ claude plugin marketplace add BrunoSilvestre00/agent-plugins
 claude plugin install pbi-toolkit@ai-plugins
 ```
 
-Para o time inteiro sem passo manual, adicione ao `.claude/settings.json`
+### Codex
+
+No terminal, com uma versão que ofereça `codex plugin add`:
+
+```bash
+codex plugin marketplace add BrunoSilvestre00/agent-plugins
+codex plugin add pbi-toolkit@ai-plugins
+```
+
+Abra uma nova conversa após instalar. Para atualizar o catálogo, use
+`codex plugin marketplace upgrade ai-plugins` e atualize/reinstale o plugin.
+Os requisitos e o teste de instalação estão no [README principal](../../README.md).
+
+**No Claude Code**, para o time inteiro sem passo manual, adicione ao `.claude/settings.json`
 dos repositórios de projeto:
 
 ```json
@@ -52,7 +74,7 @@ dos repositórios de projeto:
 ### Pré-requisitos no repositório do projeto
 
 - **Spec Kit** inicializado (`specify init`), com a constitution do time preenchida — é ela que carrega os padrões técnicos. Usamos o core oficial do GitHub; extensões só com `verified: true` no catálogo oficial (`specify extension search --verified`) **e** aprovação do time (shortlist atual em avaliação: CI Guard, Architecture Guard).
-- **Plugin oficial da Atlassian** instalado (criação das issues): `/plugin install atlassian@claude-plugins-official` (autentica via OAuth, respeitando as permissões da sua conta). Sem ele, o plugin gera os artefatos no repo e avisa que as issues não puderam ser criadas.
+- **MCP oficial da Atlassian** incluído neste plugin, conectado e autenticado via OAuth no agente atual. Uma conexão oficial já existente também serve. Sem conexão, o plugin gera os artefatos no repo e avisa que as issues não puderam ser criadas.
 
 ### Opcionais aprovados
 
@@ -119,22 +141,20 @@ Cada ciclo pode terminar com `/pbi-toolkit:compound`: o plugin extrai 1–3 liç
 
 ## Estrutura
 
-```
+```text
 plugins/pbi-toolkit/
-├── .claude-plugin/plugin.json
-├── commands/
-│   ├── setup.md                  # /pbi-toolkit:setup (provisiona o repo)
-│   ├── quebrar-epico.md          # /pbi-toolkit:quebrar-epico
-│   └── compound.md               # /pbi-toolkit:compound (lições aprendidas)
-└── skills/epico-para-pbi/
-    ├── SKILL.md                  # fluxo principal
-    └── references/
-        ├── checklist-epico.md    # o que precisa estar claro no épico (9 itens, incl. dados)
-        ├── regras-fatiamento.md  # como cortar (incl. ciclo de vida do dado) e anti-padrões
-        ├── template-pbi.md       # corpo do artefato/issue (RN exige contrato de campos completo)
-        ├── handoff-speckit.md    # formato do .md e contrato com o Spec Kit
-        ├── licoes.md             # formato das lições em docs/knowledge/
-        └── dor.md                # Definition of Ready (incl. contrato de campos completo)
+├── .claude-plugin/plugin.json    # Claude Code
+├── .codex-plugin/plugin.json     # Codex
+├── .mcp.json                     # MCP oficial da Atlassian
+├── commands/                     # atalhos do Claude Code para as skills
+├── references/runtime.md         # configuração e execução por host
+└── skills/
+    ├── pbi-toolkit-*/             # setup, quebrar-epico e compound
+    │   ├── SKILL.md
+    │   └── references/workflow.md
+    └── epico-para-pbi/
+        ├── SKILL.md              # refinamento e criação de PBIs
+        └── references/           # checklist, DoR, templates e lições
 ```
 
 ## Manutenção e versionamento

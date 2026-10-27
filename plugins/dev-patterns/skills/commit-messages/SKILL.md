@@ -1,7 +1,8 @@
 ---
 name: commit-messages
 description: Padrão do time para escrever mensagens de commit consistentes e rastreáveis (Conventional Commits + referência de task) — vale para qualquer stack.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Mensagens de commit

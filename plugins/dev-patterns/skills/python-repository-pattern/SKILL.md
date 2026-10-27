@@ -1,7 +1,8 @@
 ---
 name: python-repository-pattern
 description: Repositório fino por agregado, Unit of Work como context manager assíncrono, mapeamento imperativo do SQLAlchemy mantendo a entidade sem ORM.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de repositório e Unit of Work (Python + SQLAlchemy async)

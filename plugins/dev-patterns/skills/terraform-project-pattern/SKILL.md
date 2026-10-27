@@ -1,7 +1,8 @@
 ---
 name: terraform-project-pattern
 description: Estrutura de projeto Terraform do time — state remoto por ambiente, interface única via Makefile, reaproveitar infra existente em vez de recriar, e quando extrair módulo local.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Padrão de projeto Terraform

@@ -1,7 +1,8 @@
 ---
 name: python-observability-datadog-pattern
 description: Instrumentação Datadog (ddtrace) de um serviço Python — auto-instrumentação por exclusão nomeada nunca por allowlist, sampling por padrão com exceção documentada para caminho crítico, logs estruturados correlacionados ao trace.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Instrumentação Datadog (ddtrace) de um serviço Python

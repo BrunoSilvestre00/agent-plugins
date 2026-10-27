@@ -1,7 +1,8 @@
 ---
 name: frontend-code-review-conventions
 description: Checklist de revisão para PRs frontend neste stack (React/TS/Redux/styled-components) — sinaliza padrões legados que não devem voltar e lacunas de teste/segurança conhecidas.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 <!-- Use junto com a skill `code-review-conventions` deste mesmo plugin

@@ -1,7 +1,8 @@
 ---
 name: python-domain-event-pattern
 description: Eventos de domínio como dataclasses imutáveis, escolhidos por uma factory a partir do estado do agregado, publicados com dual-write (bus + store de auditoria).
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de evento de domínio (Python)

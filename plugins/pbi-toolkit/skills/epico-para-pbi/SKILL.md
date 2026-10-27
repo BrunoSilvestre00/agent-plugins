@@ -6,10 +6,12 @@ description: >-
   issues correspondentes no Jira via MCP da Atlassian. Use sempre que o usuário
   mencionar refinar ou quebrar um épico, criar PBIs ou histórias a partir de
   uma iniciativa, preparar backlog para o time de desenvolvimento, ou rodar o
-  comando /pbi-toolkit:quebrar-epico — mesmo que ele cole apenas um texto solto
+  comando pbi-toolkit-quebrar-epico — mesmo que ele cole apenas um texto solto
   descrevendo a iniciativa (por exemplo "quebra esse épico", "gera os PBIs
   disso", "cria os cards no Jira").
 ---
+
+Leia primeiro [as regras de execução](../../references/runtime.md).
 
 # Épico → PBIs: artefatos no repo + issues no Jira
 
@@ -22,12 +24,12 @@ Esta skill **não gera tasks** — o dev deriva tasks no próprio repo com `/spe
 
 ## Pré-checagens (faça antes de tudo)
 
-1. **Configuração do repositório**: leia a config de destino no `CLAUDE.md` da raiz. Este plugin procura, nesta ordem, uma seção `## PBI Config` ou `## Dev Flow Config` (esta última é a convenção compartilhada quando o repo também usa o plugin `dev-toolkit` — leia dela apenas as chaves abaixo e ignore as demais). Chaves usadas:
+1. **Configuração do repositório**: leia a config de destino no `ARQUIVO_CONFIG` da raiz. Este plugin procura, nesta ordem, uma seção `## PBI Config` ou `## Dev Flow Config` (esta última é a convenção compartilhada quando o repo também usa o plugin `dev-toolkit` — leia dela apenas as chaves abaixo e ignore as demais). Chaves usadas:
    - `jira_projects` (ou `jira_project`): chave(s) do projeto Jira. Uma → use direto; várias → pergunte em qual projeto este épico vive (e valide chaves citadas na conversa contra a lista).
    - `status_ready` (opcional): status do workflow que marca "pronto para desenvolvimento" (usado no passo 6.6).
    - `issue_type_pbi` / `issue_type_epico` (opcionais; padrão: História / Épico).
-   Com config presente, não pergunte projeto/tipo — informe no resumo de confirmação e siga. O que o usuário disser na conversa sempre prevalece. Sem config: aceite `.pbi-toolkit.json` legado se existir; senão pergunte no passo 6 e ofereça gravar a config no CLAUDE.md (na seção `## Dev Flow Config` se ela já existir; senão em `## PBI Config`).
-2. **Tools da Atlassian disponíveis?** Verifique se há tools de Jira/Atlassian (vindas do plugin oficial `atlassian@claude-plugins-official` ou do MCP oficial da Atlassian). Se não houver, avise o usuário no início ("vou gerar os artefatos no repo, mas para criar as issues você precisa instalar o plugin oficial: `/plugin install atlassian@claude-plugins-official`") e siga o fluxo até o passo 5. **Use somente as tools oficiais da Atlassian para falar com o Jira** — nunca skills ou CLIs de terceiros, mesmo que estejam instaladas no ambiente.
+   Com config presente, não pergunte projeto/tipo — informe no resumo de confirmação e siga. O que o usuário disser na conversa sempre prevalece. Sem config: aceite `.pbi-toolkit.json` legado se existir; senão pergunte no passo 6 e ofereça gravar a config no ARQUIVO_CONFIG (na seção `## Dev Flow Config` se ela já existir; senão em `## PBI Config`).
+2. **Tools da Atlassian disponíveis?** Verifique se há tools do MCP oficial da Atlassian incluído no plugin ou conectado à sessão. Se não houver, avise o usuário no início que vai gerar os artefatos locais, mas a criação de issues requer conectar e autenticar o MCP oficial da Atlassian no agente atual e siga o fluxo até o passo 5. **Use somente as tools oficiais da Atlassian para falar com o Jira** — nunca skills ou CLIs de terceiros, mesmo que estejam instaladas no ambiente.
 3. **Contexto do projeto**: confira se existe `.specify/` ou `specs/` (Spec Kit inicializado) e `docs/pbis/`. Se `docs/pbis/` não existir, crie na hora de gravar.
 4. **Épico**: se o usuário passou uma chave (ex.: PROJ-123), busque a issue no Jira e use descrição + comentários como material de partida.
 5. **Modo incremental**: verifique se `docs/pbis/<slug-do-epico>/README.md` já existe. Se sim, este épico já foi decomposto antes — o passo 1 abaixo entra em **modo incremental** (adicionar um PBI a um épico existente), não repete a entrevista completa do zero. Se não existir, siga o fluxo completo normalmente.
@@ -95,13 +97,13 @@ Com as tools oficiais da Atlassian:
 Se alguma criação falhar, reporte o erro exato, o que foi criado e o que faltou — nunca finja sucesso.
 
 ### 7. Fechar o ciclo
-Ao concluir, sugira commitar os artefatos e lembre o usuário de que, ao fim do épico (ou quando algo relevante for aprendido no meio), existe o `/pbi-toolkit:compound`.
+Ao concluir, sugira commitar os artefatos e lembre o usuário de que, ao fim do épico (ou quando algo relevante for aprendido no meio), existe o `pbi-toolkit-compound`.
 
-**PBI incremental motivado por descoberta (dev ou PO)**: se o passo 1 registrou que este PBI nasceu de uma descoberta do lado do dev (ex.: `architect` do `dev-toolkit` sinalizou, numa avaliação de arquitetura ou revisão final, que o corte original do épico não previa esse escopo) **ou de uma revisão manual do próprio PO** (ex.: percebeu depois que um PBI já avançado tratou uma decisão de negócio de forma ilustrativa em vez de exaustiva), ofereça registrar isso como lição agora mesmo, no mesmo mecanismo do `/pbi-toolkit:compound` — não é obrigatório esperar o fim do épico pra esse caso específico, porque é exatamente o tipo de padrão que `checklist-epico.md` (itens "riscos e incertezas" / "dependências externas") ou o contrato de campos de `template-pbi.md`/`dor.md` deveria ter capturado desde o início. Mesma disciplina do compound: 1 lição, valida com o usuário, nunca grava sem confirmação.
+**PBI incremental motivado por descoberta (dev ou PO)**: se o passo 1 registrou que este PBI nasceu de uma descoberta do lado do dev (ex.: `architect` do `dev-toolkit` sinalizou, numa avaliação de arquitetura ou revisão final, que o corte original do épico não previa esse escopo) **ou de uma revisão manual do próprio PO** (ex.: percebeu depois que um PBI já avançado tratou uma decisão de negócio de forma ilustrativa em vez de exaustiva), ofereça registrar isso como lição agora mesmo, no mesmo mecanismo do `pbi-toolkit-compound` — não é obrigatório esperar o fim do épico pra esse caso específico, porque é exatamente o tipo de padrão que `checklist-epico.md` (itens "riscos e incertezas" / "dependências externas") ou o contrato de campos de `template-pbi.md`/`dor.md` deveria ter capturado desde o início. Mesma disciplina do compound: 1 lição, valida com o usuário, nunca grava sem confirmação.
 
-## Compound — lições aprendidas (`/pbi-toolkit:compound`)
+## Compound — lições aprendidas (`pbi-toolkit-compound`)
 
-Quando invocado, extraia 1–3 lições do ciclo e grave em `docs/knowledge/` seguindo estritamente `references/licoes.md` (formato, regras de escrita, checagem de contradições, validação com o usuário). Boas fontes de lição: PBIs que voltaram do desenvolvimento com dúvidas, `[NEEDS CLARIFICATION]` recorrentes do mesmo tema, fatiamentos que se provaram grandes/pequenos demais, dependências externas que surpreenderam, estimativas de restrição que falharam, e PBI incremental motivado por descoberta do dev (passo 7) que ainda não tiver virado lição. O objetivo: o próximo refinamento começa mais inteligente que este — e essa mesma pasta `docs/knowledge/` é lida pelo `/dev-toolkit:refine` (se o repo também usar o `dev-toolkit`), então uma lição registrada aqui também informa o lado do dev, não só o próximo refinamento do PO.
+Quando invocado, extraia 1–3 lições do ciclo e grave em `docs/knowledge/` seguindo estritamente `references/licoes.md` (formato, regras de escrita, checagem de contradições, validação com o usuário). Boas fontes de lição: PBIs que voltaram do desenvolvimento com dúvidas, `[NEEDS CLARIFICATION]` recorrentes do mesmo tema, fatiamentos que se provaram grandes/pequenos demais, dependências externas que surpreenderam, estimativas de restrição que falharam, e PBI incremental motivado por descoberta do dev (passo 7) que ainda não tiver virado lição. O objetivo: o próximo refinamento começa mais inteligente que este — e essa mesma pasta `docs/knowledge/` é lida pelo `dev-toolkit-refine` (se o repo também usar o `dev-toolkit`), então uma lição registrada aqui também informa o lado do dev, não só o próximo refinamento do PO.
 
 ## Divisão de responsabilidades
 
@@ -109,9 +111,9 @@ Quando invocado, extraia 1–3 lições do ciclo e grave em `docs/knowledge/` se
 |---|---|---|
 | Discovery / escrita do épico | PO | plugin `product-management` (Anthropic) |
 | Épico → PBIs (.md no repo + issues no Jira) | PO | **este plugin** (+ grill-me no refinamento, se instalado) |
-| Criação/atualização de issues | PO | plugin oficial `atlassian@claude-plugins-official` |
+| Criação/atualização de issues | PO | MCP oficial da Atlassian |
 | PBI pronto → implementação | Dev | Toolkit de desenvolvimento que o time usar no repo — ex.: `dev-toolkit` (lê o PBI do Jira) ou Spec Kit (`/speckit.specify` sobre o artefato .md). Este plugin não depende de nenhum deles. |
 
 ## Política de ferramentas (decisão do time — respeite)
 
-Ferramentas aprovadas: **Spec Kit** (github/spec-kit, sem extensões da comunidade), **atlassian@claude-plugins-official**, **product-management@knowledge-work-plugins** e **grill-me** (somente do repositório original de Matt Pocock). Não use nem recomende skills, plugins, agents ou CLIs de terceiros fora desta lista, mesmo que pareçam úteis ou estejam instalados. Se identificar valor em algo novo, sugira ao usuário levar ao time para aprovação — não use por conta própria.
+Ferramentas aprovadas: **Spec Kit** (github/spec-kit, sem extensões da comunidade), **MCP oficial da Atlassian**, **product-management@knowledge-work-plugins** e **grill-me** (somente do repositório original de Matt Pocock). Não use nem recomende skills, plugins, agents ou CLIs de terceiros fora desta lista, mesmo que pareçam úteis ou estejam instalados. Se identificar valor em algo novo, sugira ao usuário levar ao time para aprovação — não use por conta própria.

@@ -1,0 +1,13 @@
+{
+  "name": "dev-patterns",
+  "version": "0.10.0",
+  "description": "Skills e comandos de scaffold que padronizam código e infra do time: gerais (commit, code review), frontend (React/TS/Redux), backend (Python/Clean Architecture, validado contra design/performance/segurança), DevOps/IaC (Terraform+AWS) e observability (Datadog: instrumentacao Python + Lambda/Terraform, sampling e auto-instrumentacao cost-aware por padrao), mais comandos de scaffold inicial por stack. Autossuficiente: instale e as convenções ficam disponíveis, sem depender de nenhum servidor externo.",
+  "author": {
+    "name": "Bruno Silvestre"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dev Patterns",
+    "shortDescription": "Convenções e scaffolds por stack."
+  }
+}

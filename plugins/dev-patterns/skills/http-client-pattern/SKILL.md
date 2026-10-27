@@ -1,7 +1,8 @@
 ---
 name: http-client-pattern
 description: Um cliente HTTP único e um hook de data-fetching genérico para chamadas de API, em vez de instâncias axios duplicadas e boilerplate de loading/erro repetido por view.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 <!-- O projeto de referência tinha várias instâncias axios quase

@@ -1,7 +1,8 @@
 ---
 name: redux-domain-pattern
 description: Convenção para adicionar um novo domínio de estado Redux (types/actions/reducers com ReducerBuilder+Immer) e consumi-lo via hooks, sem duplicar boilerplate de loading/erro.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Padrão de domínio Redux

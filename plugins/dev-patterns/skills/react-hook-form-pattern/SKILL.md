@@ -1,7 +1,8 @@
 ---
 name: react-hook-form-pattern
 description: Convenção para formulários com react-hook-form, FormProvider e os componentes controlados do design system, incluindo formulários multi-etapa.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Padrão de formulário (react-hook-form)

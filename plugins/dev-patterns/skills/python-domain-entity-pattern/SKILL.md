@@ -1,7 +1,8 @@
 ---
 name: python-domain-entity-pattern
 description: Entidades de domínio como dataclasses Python puras, com transições de estado guardadas e sem acoplamento a ORM/framework.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de entidade de domínio (Python)

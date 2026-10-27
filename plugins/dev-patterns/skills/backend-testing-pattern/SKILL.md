@@ -1,7 +1,8 @@
 ---
 name: backend-testing-pattern
 description: pytest com fixtures, Mock/AsyncMock para dependências externas e teste explícito de transição de estado válida E inválida.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 <!-- Diferente da lacuna de TDD do frontend: aqui o padrão de teste já é

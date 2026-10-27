@@ -1,7 +1,8 @@
 ---
 name: python-api-endpoint-pattern
 description: Router FastAPI com injeção de dependência, ciclo de vida explícito da Unit of Work e schema de resposta separado da entidade — incluindo o caso de webhook.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de endpoint (FastAPI + DI)

@@ -1,7 +1,8 @@
 ---
 name: frontend-tdd
 description: Disciplina de TDD para componentes/views React deste stack — teste primeiro, colocado em __test__/, queries centradas no usuário, com renderWithRedux e mocks de store.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 <!-- Esta skill existe para preencher uma lacuna real: o projeto de

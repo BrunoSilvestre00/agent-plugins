@@ -1,7 +1,8 @@
 ---
 name: python-provider-adapter-pattern
 description: Port & adapter para integração com serviço externo — DTOs de entrada/saída genéricos, adapter concreto versionado, auditoria não-fatal, nunca segredo hardcoded.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de integração com serviço externo (port & adapter)

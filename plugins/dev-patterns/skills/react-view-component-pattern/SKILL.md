@@ -1,7 +1,8 @@
 ---
 name: react-view-component-pattern
 description: Estrutura de pasta e convenções para criar um componente ou view novo em apps React/TypeScript com styled-components e um design system próprio.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Padrão de componente/view (React + TS + styled-components)

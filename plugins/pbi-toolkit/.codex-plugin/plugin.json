@@ -1,0 +1,14 @@
+{
+  "name": "pbi-toolkit",
+  "version": "1.10.0",
+  "description": "Quebra epicos em PBIs padronizados: grava um .md por PBI no repositorio (insumo do /speckit.specify) e cria as issues no Jira via MCP da Atlassian. Detecta epico ja decomposto e entra em modo incremental (adiciona um PBI sem repetir a entrevista). Checklist de refinamento cobre dados como dimensao propria (qualidade, retencao, medicao), nao so efeito colateral de outro PBI. Regras de negocio de um PBI que captura entidade exigem contrato de campos completo (obrigatorio/opcional), nao so exemplos, e isso vira item da Definition of Ready.",
+  "author": {
+    "name": "Bruno Silvestre"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "pbi-toolkit",
+    "shortDescription": "Refinamento de épicos e PBIs com Jira."
+  },
+  "mcpServers": "./.mcp.json"
+}

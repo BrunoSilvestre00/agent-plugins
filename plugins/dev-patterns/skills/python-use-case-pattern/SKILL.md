@@ -1,7 +1,8 @@
 ---
 name: python-use-case-pattern
 description: Um caso de uso por classe, dependências injetadas, único método execute(input)->output, registrado no container de DI.
-version: 0.1.1
+metadata:
+  version: "0.1.1"
 ---
 
 # Padrão de caso de uso (Python)

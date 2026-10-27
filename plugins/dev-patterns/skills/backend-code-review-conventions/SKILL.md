@@ -1,7 +1,8 @@
 ---
 name: backend-code-review-conventions
 description: Checklist de revisão para PRs de backend neste padrão (Clean Architecture Python) — sinaliza violação de camada, use case sem registro no DI e lacunas de teste.
-version: 0.2.0
+metadata:
+  version: "0.2.0"
 ---
 
 <!-- Use junto com a skill `code-review-conventions` deste mesmo plugin

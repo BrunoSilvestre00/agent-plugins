@@ -1,7 +1,8 @@
 ---
 name: code-review-conventions
 description: Convenções do time para revisar pull requests com foco em correção, clareza e feedback acionável — vale para qualquer stack.
-version: 0.1.0
+metadata:
+  version: "0.1.0"
 ---
 
 # Convenções de code review

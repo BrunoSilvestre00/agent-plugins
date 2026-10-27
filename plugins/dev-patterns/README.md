@@ -1,8 +1,17 @@
 # dev-patterns
 
-Plugin do Claude Code **autossuficiente**: skills de convenção de código do
+Plugin para Claude Code e Codex **autossuficiente**: skills de convenção de código do
 time — geral e por stack. Não depende de MCP nem de nenhum servidor
-externo — instala e usa. Cobre hoje:
+externo — instala e usa.
+
+**Compatibilidade:** as regras estão em skills compartilhadas. Nos exemplos
+abaixo, `/dev-patterns:ação` é a entrada do Claude Code; no Codex use
+`$dev-patterns:dev-patterns-ação` (por exemplo, `$dev-patterns:dev-patterns-scaffold-backend meu-servico`).
+Quando o texto mencionar `CLAUDE.md`, no Codex o arquivo novo é `AGENTS.md`;
+uma seção de configuração já existente em qualquer um deles é reutilizada.
+Veja a [tabela completa e as regras de configuração](../../README.md#uso-nos-dois-agentes).
+
+Cobre hoje:
 
 - **Frontend** (React 18 + TypeScript + Redux + styled-components),
   minerado de um projeto legado real — separando o que é bom a
@@ -27,7 +36,9 @@ externo — instala e usa. Cobre hoje:
   layer/dependência do Datadog. As skills já nascem corrigindo os dois
   achados, não os replicando.
 
-## Instalar e usar
+## Instalação
+
+### Claude Code
 
 ```bash
 # 1. Adicionar o marketplace (uma vez por dev — mesmo passo do dev-toolkit)
@@ -37,6 +48,19 @@ claude plugin marketplace add BrunoSilvestre00/agent-plugins
 claude plugin install dev-patterns@ai-plugins
 ```
 
+### Codex
+
+No terminal, com uma versão que ofereça `codex plugin add`:
+
+```bash
+codex plugin marketplace add BrunoSilvestre00/agent-plugins
+codex plugin add dev-patterns@ai-plugins
+```
+
+Abra uma nova conversa após instalar. Para atualizar o catálogo, use
+`codex plugin marketplace upgrade ai-plugins` e atualize/reinstale o plugin.
+Os requisitos e o teste de instalação estão no [README principal](../../README.md).
+
 As skills ficam disponíveis para o Claude Code invocar sozinho quando
 relevante (ex.: ao criar um componente novo, ele reconhece que
 `react-view-component-pattern` se aplica) ou por pedido explícito do dev
@@ -45,11 +69,11 @@ ação pontual — rode quando for bootstrapar um projeto novo.
 
 ## Comandos incluídos
 
-| Comando | O que faz |
-|---|---|
-| `/dev-patterns:scaffold-backend <nome>` | Esqueleto de projeto backend Python — **uv** (não pip/requirements.txt), `pyproject.toml`/ruff, pre-commit, Dockerfile, CI, container de DI vazio |
-| `/dev-patterns:scaffold-frontend <nome>` | Esqueleto de projeto frontend React/TS — **yarn** via Corepack (não npm), Vite+Vitest, Redux, eslint, CI |
-| `/dev-patterns:scaffold-terraform <nome>` | Esqueleto de módulo Terraform (state remoto por ambiente, Makefile, gate estático de CI) |
+| Claude Code | Codex | O que faz |
+|---|---|---|
+| `/dev-patterns:scaffold-backend <nome>` | `$dev-patterns:dev-patterns-scaffold-backend <nome>` | Esqueleto de projeto backend Python — **uv** (não pip/requirements.txt), `pyproject.toml`/ruff, pre-commit, Dockerfile, CI, container de DI vazio |
+| `/dev-patterns:scaffold-frontend <nome>` | `$dev-patterns:dev-patterns-scaffold-frontend <nome>` | Esqueleto de projeto frontend React/TS — **yarn** via Corepack (não npm), Vite+Vitest, Redux, eslint, CI |
+| `/dev-patterns:scaffold-terraform <nome>` | `$dev-patterns:dev-patterns-scaffold-terraform <nome>` | Esqueleto de módulo Terraform (state remoto por ambiente, Makefile, gate estático de CI) |
 
 Todos os três geram só esqueleto — pastas e configuração funcional, sem
 nenhum código de domínio/exemplo. O primeiro módulo real do projeto é
@@ -129,7 +153,7 @@ quando várias mudam junto numa mesma release do plugin.
 ## Adicionar uma skill nova (geral ou de um stack novo)
 
 Crie `skills/<nome-da-skill>/SKILL.md` (frontmatter `name`, `description`,
-`version`) + `CHANGELOG.md`, seguindo o mesmo formato das skills acima.
+e versão em `metadata.version`) + `CHANGELOG.md`, seguindo o formato das skills acima.
 Nada mais precisa mudar — a descoberta é automática por pasta. Skill
 específica de stack ganha um nome prefixado (`react-`/`python-`/...) ou
 sufixado (`frontend-`/`backend-`); skill geral não precisa de prefixo.
